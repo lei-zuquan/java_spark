@@ -14,7 +14,7 @@ import java.util.List;
  * @Date: Created in 9:27 上午 2020/3/1
  * @Version: 1.0
  * @Modified By:
- * @Description:   mapPartitionsWithIndex：带有一个整数参数表示分片的索引值
+ * @Description: mapPartitionsWithIndex：带有一个整数参数表示分片的索引值
  */
 public class Java_Spark04_Oper3_mapPartitionsWithIndex {
     public static void main(String[] args) {

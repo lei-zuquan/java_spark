@@ -39,10 +39,10 @@ public class Java_Spark03_Oper2_mapPartitions {
         JavaRDD<Integer> mapPartitions = listRDD.mapPartitions(
                 datas -> {
                     List list = new ArrayList<>();
-                    while (datas.hasNext()){
+                    while (datas.hasNext()) {
                         Integer next = datas.next();
                         list.add(next * 2);
-                        
+
                     }
                     return list.iterator();
                 }

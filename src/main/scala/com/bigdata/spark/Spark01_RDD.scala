@@ -14,7 +14,7 @@ import org.apache.spark.rdd.RDD
 object Spark01_RDD {
   def main(args: Array[String]): Unit = {
 
-    val config:SparkConf = new SparkConf().setMaster("local[*]").setAppName("WordCount") //"local[*]"
+    val config: SparkConf = new SparkConf().setMaster("local[*]").setAppName("WordCount") //"local[*]"
     //1,创建上下文对象
     val sc = new SparkContext(config)
     //创建RDD

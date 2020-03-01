@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class Java_WordCount {
     public static void main(String[] args) {
-//使用idea工具开发
+        //使用idea工具开发
         //local 模式
 
         // 创建SparkConf()对象
@@ -33,10 +33,10 @@ public class Java_WordCount {
         //读取文件,将文件内容一行一行的读取出来
         //路径查找位置默认从当前的部署环境中查找
         /**
-        JavaPairRDD<String, Integer> counts = sc.textFile("in/wordcount.txt")
-                .flatMap(s -> Arrays.asList(s.split(" ")).iterator())
-                .mapToPair(word -> new Tuple2<>(word, 1))
-                .reduceByKey((a, b) -> a + b);
+         JavaPairRDD<String, Integer> counts = sc.textFile("in/wordcount.txt")
+         .flatMap(s -> Arrays.asList(s.split(" ")).iterator())
+         .mapToPair(word -> new Tuple2<>(word, 1))
+         .reduceByKey((a, b) -> a + b);
          */
 
         JavaRDD<String> lines = sc.textFile("in/wordcount.txt");
@@ -60,10 +60,4 @@ public class Java_WordCount {
         }
     }
 
-    /**
-     *
-     */
-    public static void method(){
-
-    }
 }

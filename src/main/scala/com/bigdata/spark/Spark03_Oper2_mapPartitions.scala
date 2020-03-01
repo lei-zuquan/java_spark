@@ -25,7 +25,7 @@ object Spark03_Oper2_mapPartitions {
     //mapPartitions 效率优于map算子，减少发送到执行器执行的交换次数
     //mapPartitions 缺点是可能会出现 内存溢出（OOM)
     var mapPartitions: RDD[Int] = listRDD.mapPartitions(datas => {
-      datas.map(datas => datas*2 )//这里是 scala计算，不是RDD计算，会把这个整个发送给执行器exceuter
+      datas.map(datas => datas * 2) //这里是 scala计算，不是RDD计算，会把这个整个发送给执行器exceuter
     })
 
     mapPartitions.collect().foreach(println)

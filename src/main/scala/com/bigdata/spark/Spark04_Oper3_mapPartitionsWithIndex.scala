@@ -9,7 +9,7 @@ import org.apache.spark.rdd.RDD
  * @Date: Created in 7:47 上午 2020/3/1
  * @Version: 1.0
  * @Modified By:
- * @Description:
+ * @Description: @Description:   mapPartitionsWithIndex：带有一个整数参数表示分片的索引值
  */
 object Spark04_Oper3_mapPartitionsWithIndex {
 
