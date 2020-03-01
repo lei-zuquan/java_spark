@@ -18,7 +18,7 @@ import java.util.List;
  * @Modified By:
  * @Description: partitionBy算子 作用：对pairRDD进行分区操作，如果原有的partionRDD和现有的partionRDD是一致的话就不进行分区， 否则会生成ShuffleRDD，即会产生shuffle过程。
  */
-public class Java_Spark13_Oper12_partitionBy {
+public class Java_Spark13_Oper12_1_partitionBy {
     public static void main(String[] args) {
         // var config:SparkConf = new SparkConf().setMaster("local[*]").setAppName("partitionBy")
         SparkConf config = new SparkConf().setMaster("local[*]").setAppName("partitionBy");

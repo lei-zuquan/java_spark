@@ -16,7 +16,7 @@ import java.util.List;
  * @Modified By:
  * @Description: groupByKey算子 作用：groupByKey也是对每个key进行操作，但只生成一个sequence。
  */
-public class Java_Spark13_Oper12_groupByKey {
+public class Java_Spark13_Oper12_2_groupByKey {
     public static void main(String[] args) {
         //var config: SparkConf = new SparkConf().setMaster("local[*]").setAppName("groupByKey")
         SparkConf config = new SparkConf().setMaster("local[*]").setAppName("groupByKey");

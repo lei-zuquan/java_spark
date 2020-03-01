@@ -17,7 +17,7 @@ import org.apache.spark.{SparkConf, SparkContext}
  *      2. groupByKey：按照key进行分组，直接进行shuffle。
  *      3. 开发指导：reduceByKey比groupByKey，建议使用。但是需要注意是否会影响业务逻辑。
  */
-object Spark13_Oper12_reduceByKey {
+object Spark13_Oper12_3_reduceByKey {
   def main(args: Array[String]): Unit = {
     var config: SparkConf = new SparkConf().setMaster("local[*]").setAppName("reduceByKey");
 

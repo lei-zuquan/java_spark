@@ -23,7 +23,7 @@ import java.util.List;
  * 2. groupByKey：按照key进行分组，直接进行shuffle。
  * 3. 开发指导：reduceByKey比groupByKey，建议使用。但是需要注意是否会影响业务逻辑。
  */
-public class Java_Spark13_Oper12_reduceByKey {
+public class Java_Spark13_Oper12_3_reduceByKey {
     public static void main(String[] args) {
         //var config: SparkConf = new SparkConf().setMaster("local[*]").setAppName("reduceByKey");
 

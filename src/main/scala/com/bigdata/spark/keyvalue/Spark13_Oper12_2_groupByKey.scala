@@ -10,7 +10,7 @@ import org.apache.spark.{SparkConf, SparkContext}
  * @Modified By:
  * @Description: groupByKey算子 作用：groupByKey也是对每个key进行操作，但只生成一个sequence。
  */
-object Spark13_Oper12_groupByKey {
+object Spark13_Oper12_2_groupByKey {
   def main(args: Array[String]): Unit = {
     var config: SparkConf = new SparkConf().setMaster("local[*]").setAppName("groupByKey")
 
