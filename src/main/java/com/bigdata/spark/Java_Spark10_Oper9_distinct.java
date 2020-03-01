@@ -18,7 +18,7 @@ import java.util.List;
 public class Java_Spark10_Oper9_distinct {
     public static void main(String[] args) {
         // var config: SparkConf = new SparkConf().setMaster("local[*]").setAppName("WordCount")
-        SparkConf config = new SparkConf().setMaster("local[*]").setAppName("WordCount");
+        SparkConf config = new SparkConf().setMaster("local[*]").setAppName("distinct");
 
         // 创建Spark上下文对象
 

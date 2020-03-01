@@ -13,7 +13,7 @@ import org.apache.spark.{SparkConf, SparkContext}
  */
 object Spark10_Oper9_distinct {
   def main(args: Array[String]): Unit = {
-    var config: SparkConf = new SparkConf().setMaster("local[*]").setAppName("WordCount")
+    var config: SparkConf = new SparkConf().setMaster("local[*]").setAppName("distinct")
 
     // 创建Spark上下文对象
 
