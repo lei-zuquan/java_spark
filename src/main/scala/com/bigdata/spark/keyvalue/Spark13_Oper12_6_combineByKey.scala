@@ -32,9 +32,9 @@ object Spark13_Oper12_6_combineByKey {
      * （3）mergeCombiners: 由于每个分区都是独立处理的， 因此对于同一个键可以有多个累加器。如果有两个或者更多的分区都有对应同一个键的累加器， 就需要使用用户提供的 mergeCombiners() 方法将各个分区的结果进行合并。
      */
     val combine = input.combineByKey(
-      (_, 1),
-      (acc: (Int, Int), v) => (acc._1 + v, acc._2 + 1),
-      (acc1: (Int, Int), acc2: (Int, Int)) => (acc1._1 + acc2._1, acc1._2 + acc2._2)
+      (_, 1), // value 转成 value, 1次
+      (acc: (Int, Int), v) => (acc._1 + v, acc._2 + 1), // value + value, 次数 + 1
+      (acc1: (Int, Int), acc2: (Int, Int)) => (acc1._1 + acc2._1, acc1._2 + acc2._2) // value + value, 次数+次数
     )
 
     // 打印合并后的结果

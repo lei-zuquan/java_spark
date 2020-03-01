@@ -53,9 +53,9 @@ public class Java_Spark13_Oper12_6_combineByKey {
             System.out.println(tuple._1 + tuple._2);
         });
         JavaPairRDD<String, Tuple2<Integer, Integer>> combine = input.combineByKey(
-                (Integer v) -> new Tuple2<Integer, Integer>(v, 1),
-                (Tuple2<Integer, Integer> acc, Integer v) -> new Tuple2<Integer, Integer>(acc._1 + v, acc._2 + 1),
-                (Tuple2<Integer, Integer> acc1, Tuple2<Integer, Integer> acc2) -> new Tuple2<Integer, Integer>(acc1._1 + acc2._1, acc1._2 + acc2._2)
+                (Integer v) -> new Tuple2<Integer, Integer>(v, 1), // value 转成 value, 1次
+                (Tuple2<Integer, Integer> acc, Integer v) -> new Tuple2<Integer, Integer>(acc._1 + v, acc._2 + 1), // value + value, 次数 + 1
+                (Tuple2<Integer, Integer> acc1, Tuple2<Integer, Integer> acc2) -> new Tuple2<Integer, Integer>(acc1._1 + acc2._1, acc1._2 + acc2._2) // value + value, 次数+次数
         );
 
         // 打印合并后的结果
