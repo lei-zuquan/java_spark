@@ -40,5 +40,7 @@ public class Java_Spark07_Oper6_groupBy {
 
         // groupbyRDD.collect().foreach(println)
         groupByRDD.collect().forEach(System.out::println);
+
+        sc.close();
     }
 }
