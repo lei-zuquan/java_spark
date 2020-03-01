@@ -11,7 +11,7 @@ import org.apache.spark.{SparkConf, SparkContext}
  * @Modified By:
  * @Description: repartition算子 实际上是调用的coalesce，默认是进行shuffle的
  */
-object Spark12_Oper11_repartition {
+object Spark12_Oper11_value_value {
   def main(args: Array[String]): Unit = {
     var config: SparkConf = new SparkConf().setMaster("local[*]").setAppName("repartition")
 

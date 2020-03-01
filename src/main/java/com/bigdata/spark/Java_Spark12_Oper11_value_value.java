@@ -15,7 +15,7 @@ import java.util.List;
  * @Modified By:
  * @Description: repartition算子 实际上是调用的coalesce，默认是进行shuffle的
  */
-public class Java_Spark12_Oper11_repartition {
+public class Java_Spark12_Oper11_value_value {
     public static void main(String[] args) {
         // var config: SparkConf = new SparkConf().setMaster("local[*]").setAppName("repartition")
         SparkConf config = new SparkConf().setMaster("local[*]").setAppName("repartition");
