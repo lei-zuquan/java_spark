@@ -9,6 +9,14 @@ import scala.Tuple2;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * @Author: Lei
+ * @E-mail: 843291011@qq.com
+ * @Date: Created in 7:47 上午 2020/3/1
+ * @Version: 1.0
+ * @Modified By:
+ * @Description:
+ */
 public class Java_WordCount {
     public static void main(String[] args) {
 //使用idea工具开发

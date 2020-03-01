@@ -3,7 +3,16 @@ package com.bigdata.spark
 import org.apache.spark.{SparkConf, SparkContext}
 import org.apache.spark.rdd.RDD
 
+/**
+ * @Author: Lei
+ * @E-mail: 843291011@qq.com
+ * @Date: Created in 7:47 上午 2020/3/1
+ * @Version: 1.0
+ * @Modified By:
+ * @Description:
+ */
 object Spark02_Oper1_map {
+
   def main(args: Array[String]): Unit = {
     var config: SparkConf = new SparkConf().setMaster("local[*]").setAppName("WordCount")
 

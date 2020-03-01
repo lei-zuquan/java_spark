@@ -6,6 +6,14 @@ import org.apache.spark.api.java.JavaSparkContext;
 
 import java.util.Arrays;
 
+/**
+ * @Author: Lei
+ * @E-mail: 843291011@qq.com
+ * @Date: Created in 7:47 上午 2020/3/1
+ * @Version: 1.0
+ * @Modified By:
+ * @Description:
+ */
 public class Java_Spark01_RDD {
     public static void main(String[] args) {
         SparkConf config = new SparkConf().setMaster("local[*]").setAppName("WordCount");
