@@ -14,7 +14,7 @@ import org.apache.spark.rdd.RDD
 object Spark06_Oper5_glom {
 
   def main(args: Array[String]): Unit = {
-    var config: SparkConf = new SparkConf().setMaster("local[*]").setAppName("WordCount")
+    var config: SparkConf = new SparkConf().setMaster("local[*]").setAppName("glom")
 
     // 创建Spark上下文对象
     var sc: SparkContext = new SparkContext(config)

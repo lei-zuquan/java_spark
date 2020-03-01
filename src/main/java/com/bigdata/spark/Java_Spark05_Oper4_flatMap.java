@@ -24,7 +24,7 @@ public class Java_Spark05_Oper4_flatMap {
 
     public static void testFlatMap() {
         //var config: SparkConf = new SparkConf().setMaster("local[*]").setAppName("WordCount")
-        SparkConf config = new SparkConf().setMaster("local[*]").setAppName("WordCount");
+        SparkConf config = new SparkConf().setMaster("local[*]").setAppName("flatMap");
 
         //创建Spark上下文对象
         //var sc: SparkContext = new SparkContext(config)

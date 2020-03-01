@@ -19,7 +19,7 @@ import java.util.List;
 public class Java_Spark03_Oper2_mapPartitions {
     public static void main(String[] args) {
         // var config: SparkConf = new SparkConf().setMaster("local[*]").setAppName("WordCount")
-        SparkConf config = new SparkConf().setMaster("local[*]").setAppName("WordCount");
+        SparkConf config = new SparkConf().setMaster("local[*]").setAppName("mapPartitions");
 
         //创建Spark上下文对象
         // var sc: SparkContext = new SparkContext(config)

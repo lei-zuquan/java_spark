@@ -17,7 +17,7 @@ import java.util.Arrays;
 public class Java_Spark02_Oper1_map {
     public static void main(String[] args) {
         // var config: SparkConf = new SparkConf().setMaster("local[*]").setAppName("WordCount")
-        SparkConf config = new SparkConf().setMaster("local[*]").setAppName("WordCount");
+        SparkConf config = new SparkConf().setMaster("local[*]").setAppName("map");
 
         //创建Spark上下文对象
         // var sc: SparkContext = new SparkContext(config)
