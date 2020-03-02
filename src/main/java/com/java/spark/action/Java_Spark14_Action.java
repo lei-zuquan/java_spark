@@ -18,6 +18,10 @@ import java.util.List;
  * @Modified By:
  * @Description: Action算子 ，会马上计算，不会延迟就算。注意和转换算子进行区分。
  */
+
+/**
+ * Action算子会触发runJob执行，底层源码中当前计算逻辑提交作业submitJob
+ */
 public class Java_Spark14_Action {
     public static void main(String[] args) {
         // 1.初始化spark配置信息并建立与spark的连接

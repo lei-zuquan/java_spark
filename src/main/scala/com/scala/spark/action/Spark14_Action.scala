@@ -11,6 +11,9 @@ import org.apache.spark.{SparkConf, SparkContext}
  * @Modified By:
  * @Description: Action算子 ，会马上计算，不会延迟就算。注意和转换算子进行区分。
  */
+/**
+ * Action算子会触发runJob执行，底层源码中当前计算逻辑提交作业submitJob
+ */
 object Spark14_Action {
 
   def main(args: Array[String]): Unit = {
