@@ -3,3 +3,4 @@ hello scala
 hello java
 hello spark
 hello scala
+hello scala
