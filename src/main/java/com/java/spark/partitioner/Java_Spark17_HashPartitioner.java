@@ -20,6 +20,8 @@ import java.util.*;
 /**
  * HashPartitioner分区的原理：对于给定的key，计算其hashCode，并除以分区的个数取余，
  * 如果余数小于0，则用余数+分区的个数（否则加0），最后返回的值就是这个key所属的分区ID。
+ * <p>
+ * HashPartitioner分区弊端：可能导致每个分区中数据量的不均匀，极端情况下会导致某些分区拥有RDD的全部数据。
  */
 public class Java_Spark17_HashPartitioner {
     public static void main(String[] args) {
