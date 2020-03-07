@@ -33,16 +33,16 @@ pom.xml添加mysql的jdbc连接驱动
 </dependency>
  */
 public class JAVA_Spark18_Mysql {
+
+    private static String MYSQL_DRIVER = "com.mysql.jdbc.Driver";
+    private static String MYSQL_URL = "jdbc:mysql://localhost:3306/spark_learn_rdd";
+    private static String USER_NAME = "root";
+    private static String PASS_WORD = "1234";
+
     public static void main(String[] args) {
         // 1.初始化spark配置信息并建立与spark的连接
         SparkConf config = new SparkConf().setMaster("local[*]").setAppName("JAVA_Spark18_Mysql");
         JavaSparkContext sc = new JavaSparkContext(config);
-
-
-        String driver = "com.mysql.jdbc.Driver";
-        String url = "jdbc:mysql://localhost:3306/spark_learn_rdd";
-        String userName = "root";
-        String passMd = "1234";
 
     /*
         spark 操作mysql数据
@@ -67,42 +67,49 @@ public class JAVA_Spark18_Mysql {
      */
 
         //创建jdbcRDD，方法数据库,查询数据
-        selectFromMySQL(sc, driver, url, userName, passMd);
+        selectFromMysql(sc);
 
         // 保存数据方式一
-        saveDataToMysqlWayOne(sc, driver, url, userName, passMd);
+        saveDataToMysqlWayOne(sc);
 
         // 保存数据方式二
-        saveDataToMysqlWayTwo(sc, driver, url, userName, passMd);
+        saveDataToMysqlWayTwo(sc);
 
         //释放资源
         sc.stop();
     }
 
+    /**
+     * @Description: 获取数据库连接对象
+     * @auther: lei
+     * @date: 7:11 下午 2020/3/7
+     * @param:
+     * @return: java.sql.Connection
+     */
+    private static Connection getMySqlConnection() {
+        Connection conn = null;
+        try {
+            Class.forName(MYSQL_DRIVER);
+            conn = DriverManager.getConnection(MYSQL_URL, USER_NAME, PASS_WORD);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return conn;
+    }
 
-    private static void selectFromMySQL(JavaSparkContext sc, String driver, String url, String userName, String passMd) {
+    private static void selectFromMysql(JavaSparkContext sc) {
         //创建jdbcRDD，方法数据库,查询数据
         String sql = "select id, name, age from user where id >= ? and id <= ?";
 
         JavaRDD<UserBean> jdbcRDD = JdbcRDD.create(
                 sc,
                 () -> {
-                    //获取数据库连接对象
-                    try {
-                        Class.forName(driver);
-                        return DriverManager.getConnection(url, userName, passMd);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    return null;
+                    return getMySqlConnection();
                 },
                 sql,
                 1,
                 7,
                 2,
-                // rs -> {
-                //    //println(rs.getString(1) + "  ,  " + rs.getInt(2))
-                //}
                 new Function<ResultSet, UserBean>() {
                     private static final long serialVersionUID = 1L;
 
@@ -123,8 +130,34 @@ public class JAVA_Spark18_Mysql {
         jdbcRDD.collect().forEach(System.out::println);
     }
 
+    private static void selectFromMysqlLambda(JavaSparkContext sc) throws Exception {
+        //创建jdbcRDD，方法数据库,查询数据
+        String sql = "select id, name, age from user where id >= ? and id <= ?";
 
-    private static void saveDataToMysqlWayOne(JavaSparkContext sc, String driver, String url, String userName, String passMd) {
+        JavaRDD<UserBean> jdbcRDD = JdbcRDD.create(
+                sc,
+                () -> {
+                    return getMySqlConnection();
+                },
+                sql,
+                1,
+                7,
+                2,
+                rs -> { // ResultSet
+                    ResultSetMetaData meta = rs.getMetaData();
+                    UserBean user = new UserBean();
+                    int columns = meta.getColumnCount();
+                    for (int i = 1; i <= columns; i++) {
+                        PropertyUtils.setProperty(user, meta.getColumnLabel(i).toLowerCase(), rs.getObject(i));
+                    }
+                    return user;
+                }
+        );
+        jdbcRDD.collect().forEach(System.out::println);
+    }
+
+
+    private static void saveDataToMysqlWayOne(JavaSparkContext sc) {
         //  保存数据
         //var dataRDD:RDD[(String, Int)] = sc.makeRDD(List(("java12", 111), ("java12", 112)))
         List<Tuple2<String, Integer>> list = new ArrayList<>();
@@ -150,8 +183,7 @@ public class JAVA_Spark18_Mysql {
             }
         } */
         dataRDD.foreach(tuple -> {
-            Class.forName(driver);
-            Connection conn = java.sql.DriverManager.getConnection(url, userName, passMd);
+            Connection conn = getMySqlConnection();
             String sql = "insert into  user (name, age) values (?,?)";
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setString(1, tuple._1);
@@ -163,7 +195,7 @@ public class JAVA_Spark18_Mysql {
     }
 
 
-    private static void saveDataToMysqlWayTwo(JavaSparkContext sc, String driver, String url, String userName, String passMd) {
+    private static void saveDataToMysqlWayTwo(JavaSparkContext sc) {
         //  保存数据
         //var dataRDD:RDD[(String, Int)] =sc.makeRDD(List(("zongzhong", 23), ("lishi", 23)))
         List<Tuple2<String, Integer>> list = new ArrayList<>();
@@ -187,8 +219,7 @@ public class JAVA_Spark18_Mysql {
           statement.close()
           conn.close() */
         dataRDD.foreachPartition(datasIterator -> {
-            Class.forName(driver);
-            Connection conn = java.sql.DriverManager.getConnection(url, userName, passMd);
+            Connection conn = getMySqlConnection();
             String sql = "insert into  user (name, age) values (?,?)";
             PreparedStatement statement = conn.prepareStatement(sql);
             while (datasIterator.hasNext()) {

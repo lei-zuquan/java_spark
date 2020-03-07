@@ -41,14 +41,15 @@ public class JAVA_Spark18_Mysql2 {
 
             @Override
             public Connection getConnection() {
+                Connection conn = null;
                 try {
                     Class.forName("com.mysql.jdbc.Driver"); //("oracle.jdbc.driver.OracleDriver");
                     String url = "jdbc:mysql://localhost:3306/spark_learn_rdd"; //"jdbc:oracle:thin:@172.168.27.6:1521:orclnew";
-                    return DriverManager.getConnection(url, "root", "1234");
+                    conn = DriverManager.getConnection(url, "root", "1234");
                 } catch (Exception e){
                     e.printStackTrace();
                 }
-                return null;
+                return conn;
             }
 
         }
