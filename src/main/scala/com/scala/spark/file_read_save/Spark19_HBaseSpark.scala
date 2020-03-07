@@ -2,10 +2,12 @@ package com.scala.spark.file_read_save
 
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.hbase.HBaseConfiguration
-import org.apache.hadoop.hbase.client.Result
+import org.apache.hadoop.hbase.client.{Put, Result}
 import org.apache.hadoop.hbase.io.ImmutableBytesWritable
+import org.apache.hadoop.hbase.mapred.TableOutputFormat
 import org.apache.hadoop.hbase.mapreduce.TableInputFormat
 import org.apache.hadoop.hbase.util.Bytes
+import org.apache.hadoop.mapred.JobConf
 import org.apache.spark.rdd.RDD
 import org.apache.spark.{SparkConf, SparkContext}
 
@@ -64,6 +66,22 @@ object Spark19_HBaseSpark {
         val color: String = Bytes.toString(result.getValue(Bytes.toBytes("info"), Bytes.toBytes("color")))
         println("RowKey:" + key + ",Name:" + name + ",Color:" + color)
     }
+
+    val dataRDD: RDD[(String, String)] = sc.makeRDD(List(("1001", "zhangsan"), ("1002", "lisi"), ("1003", "wangwu")))
+    val putRDD = dataRDD.map {
+      case (rowkey, name) => {
+        val put = new Put(Bytes.toBytes(rowkey));
+        put.addColumn(Bytes.toBytes("info"), Bytes.toBytes("name"), Bytes.toBytes(name))
+
+        (new ImmutableBytesWritable(Bytes.toBytes(rowkey)), put)
+      }
+    }
+
+    val jobConf = new JobConf(conf);
+    jobConf.setOutputFormat(classOf[TableOutputFormat])
+    jobConf.set(TableOutputFormat.OUTPUT_TABLE, "spark_learn_student")
+
+    putRDD.saveAsHadoopDataset(jobConf)
 
     //关闭连接
     sc.stop()
