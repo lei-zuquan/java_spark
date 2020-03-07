@@ -82,9 +82,9 @@ public class JAVA_Spark18_Mysql {
 
     private static void selectFromMySQL(JavaSparkContext sc, String driver, String url, String userName, String passMd) {
         //创建jdbcRDD，方法数据库,查询数据
-        String sql = "select name, age from user where id >= ? and id <= ?";
+        String sql = "select id, name, age from user where id >= ? and id <= ?";
 
-        JavaRDD<Port> jdbcRDD = JdbcRDD.create(
+        JavaRDD<UserBean> jdbcRDD = JdbcRDD.create(
                 sc,
                 () -> {
                     //获取数据库连接对象
@@ -98,24 +98,25 @@ public class JAVA_Spark18_Mysql {
                 },
                 sql,
                 1,
-                3,
+                7,
                 2,
                 // rs -> {
                 //    //println(rs.getString(1) + "  ,  " + rs.getInt(2))
                 //}
-                new Function<ResultSet, Port>() {
+                new Function<ResultSet, UserBean>() {
                     private static final long serialVersionUID = 1L;
 
-                    public Port call(ResultSet rs) throws Exception {
+                    @Override
+                    public UserBean call(ResultSet rs) throws Exception {
                         ResultSetMetaData meta = rs.getMetaData();
-                        Port port = new Port();
+                        UserBean user = new UserBean();
                         int columns = meta.getColumnCount();
                         for (int i = 1; i <= columns; i++) {
-                            PropertyUtils.setProperty(port,
+                            PropertyUtils.setProperty(user,
                                     meta.getColumnLabel(i).toLowerCase(),
-                                    rs.getString(i));
+                                    rs.getObject(i));
                         }
-                        return port;
+                        return user;
                     }
                 }
         );
@@ -125,10 +126,10 @@ public class JAVA_Spark18_Mysql {
 
     private static void saveDataToMysqlWayOne(JavaSparkContext sc, String driver, String url, String userName, String passMd) {
         //  保存数据
-        //var dataRDD:RDD[(String, Int)] = sc.makeRDD(List(("zongzhong", 23), ("lishi", 23)))
+        //var dataRDD:RDD[(String, Int)] = sc.makeRDD(List(("java12", 111), ("java12", 112)))
         List<Tuple2<String, Integer>> list = new ArrayList<>();
-        list.add(new Tuple2<>("zongzhong", 23));
-        list.add(new Tuple2<>("lishi", 23));
+        list.add(new Tuple2<>("java11", 111));
+        list.add(new Tuple2<>("java12", 112));
         JavaPairRDD<String, Integer> dataRDD = sc.parallelizePairs(list);
 
         //Class.forName(driver)
@@ -166,8 +167,8 @@ public class JAVA_Spark18_Mysql {
         //  保存数据
         //var dataRDD:RDD[(String, Int)] =sc.makeRDD(List(("zongzhong", 23), ("lishi", 23)))
         List<Tuple2<String, Integer>> list = new ArrayList<>();
-        list.add(new Tuple2<>("zongzhong", 23));
-        list.add(new Tuple2<>("lishi", 23));
+        list.add(new Tuple2<>("java21", 221));
+        list.add(new Tuple2<>("java22", 222));
         JavaPairRDD<String, Integer> dataRDD = sc.parallelizePairs(list);
 
         /*

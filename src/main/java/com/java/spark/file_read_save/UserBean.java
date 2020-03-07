@@ -1,20 +1,18 @@
 package com.java.spark.file_read_save;
 
-//class Port {
-public class Port {
+import java.io.Serializable;
+
+//class UserBean {
+public class UserBean implements Serializable {
+
     private int id;
     private String name;
     private int age;
 
-    public Port() {
+    public UserBean() {
         super();
     }
 
-    public Port(int id, String name, int age) {
-        this.id = id;
-        this.name = name;
-        this.age = age;
-    }
 
     public int getId() {
         return id;

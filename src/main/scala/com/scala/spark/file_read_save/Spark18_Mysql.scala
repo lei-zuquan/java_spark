@@ -96,9 +96,8 @@ object Spark18_Mysql {
   }
 
   def saveDataToMysqlWayOne(sc: SparkContext, driver: String, url: String, userName: String, passMd: String): Unit = {
-    ;
     //  保存数据
-    var dataRDD: RDD[(String, Int)] = sc.makeRDD(List(("zongzhong", 23), ("lishi", 23)))
+    var dataRDD: RDD[(String, Int)] = sc.makeRDD(List(("one1", 11), ("one2", 12)))
 
     //Class.forName(driver)
     //val conection = java.sql.DriverManager.getConnection(url, userName, passMd)
@@ -120,7 +119,7 @@ object Spark18_Mysql {
 
   def saveDataToMysqlWayTwo(sc: SparkContext, driver: String, url: String, userName: String, passMd: String): Unit = {
     //  保存数据
-    var dataRDD: RDD[(String, Int)] = sc.makeRDD(List(("zongzhong", 23), ("lishi", 23)))
+    var dataRDD: RDD[(String, Int)] = sc.makeRDD(List(("two1", 21), ("two2", 22)))
 
     dataRDD.foreachPartition(datas => { //以分区作为循环，发送到 excutor上，如果有两个分区，则直接发送到excuator上
       Class.forName(driver)

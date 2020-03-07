@@ -33,49 +33,57 @@ import java.sql.ResultSetMetaData;
 public class JAVA_Spark18_Mysql2 {
     public static void main(String[] args) throws IOException {
         SparkConf conf = new SparkConf();
-        conf.setAppName("JAVA_Spark18_Mysql2").setMaster("local");
+        conf.setAppName("JAVA_Spark18_Mysql2").setMaster("local[*]");
         JavaSparkContext jsc = new JavaSparkContext(conf);
 
         class MyConnectionFactory implements JdbcRDD.ConnectionFactory {
             private static final long serialVersionUID = 1L;
 
-            public Connection getConnection() throws Exception {
-                Class.forName("com.mysql.jdbc.Driver"); //("oracle.jdbc.driver.OracleDriver");
-                String url = "jdbc:mysql://localhost:3306/spark_learn_rdd"; //"jdbc:oracle:thin:@172.168.27.6:1521:orclnew";
-                return DriverManager.getConnection(url, "root", "1234");
+            @Override
+            public Connection getConnection() {
+                try {
+                    Class.forName("com.mysql.jdbc.Driver"); //("oracle.jdbc.driver.OracleDriver");
+                    String url = "jdbc:mysql://localhost:3306/spark_learn_rdd"; //"jdbc:oracle:thin:@172.168.27.6:1521:orclnew";
+                    return DriverManager.getConnection(url, "root", "1234");
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+                return null;
             }
 
         }
 
-        String sql = "select name, age from user where id >= ? and id <= ?";
-        JavaRDD<Port> portRdd = JdbcRDD.create(jsc,
+        String sql = "select id, name, age from user where id >= ? and id <= ?";
+        JavaRDD<UserBean> portRdd = JdbcRDD.create(jsc,
                 new MyConnectionFactory(),
                 sql,
                 1,
                 10,
                 2,
-                new Function<ResultSet, Port>() {
+                new Function<ResultSet, UserBean>() {
                     private static final long serialVersionUID = 1L;
 
-                    public Port call(ResultSet rs) throws Exception {
+                    @Override
+                    public UserBean call(ResultSet rs) throws Exception {
                         ResultSetMetaData meta = rs.getMetaData();
-                        Port port = new Port();
+                        UserBean user = new UserBean();
                         int columns = meta.getColumnCount();
                         for (int i = 1; i <= columns; i++) {
-                            PropertyUtils.setProperty(port,
+                            PropertyUtils.setProperty(user,
                                     meta.getColumnLabel(i).toLowerCase(),
-                                    rs.getString(i));
+                                    rs.getObject(i));
                         }
-                        return port;
+                        return user;
                     }
                 }).persist(StorageLevel.MEMORY_ONLY());
 
         System.out.println("number is:" + portRdd.count());
 
-        JavaPairRDD<String, String> portPairRdd = portRdd.mapToPair(new PairFunction<Port, String, String>() {
+        JavaPairRDD<String, String> portPairRdd = portRdd.mapToPair(new PairFunction<UserBean, String, String>() {
             private static final long serialVersionUID = 1L;
 
-            public Tuple2<String, String> call(Port t) throws Exception {
+            @Override
+            public Tuple2<String, String> call(UserBean t) throws Exception {
                 return new Tuple2<String, String>(t.getName(), t.toString());
             }
         });
@@ -85,8 +93,8 @@ public class JAVA_Spark18_Mysql2 {
         // return s.contains("a");
         // }
         // }).count();
-        for (Tuple2<String, String> port : portPairRdd.cache().collect()) {
-            System.out.println("key:" + port._1 + ",value:" + port._2);
+        for (Tuple2<String, String> user : portPairRdd.cache().collect()) {
+            System.out.println("key:" + user._1 + ",value:" + user._2);
         }
 
         FileSystem sys = FileSystem.getLocal(new Configuration());
