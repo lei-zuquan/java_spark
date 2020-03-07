@@ -8,16 +8,12 @@ import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
-import org.apache.spark.api.java.function.Function;
 import org.apache.spark.api.java.function.PairFunction;
 import org.apache.spark.rdd.JdbcRDD;
 import org.apache.spark.storage.StorageLevel;
 import scala.Tuple2;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 
 /**
@@ -29,32 +25,14 @@ import java.sql.ResultSetMetaData;
  * @Description:
  */
 
-
 public class JAVA_Spark18_Mysql2 {
     public static void main(String[] args) throws IOException {
         SparkConf conf = new SparkConf();
         conf.setAppName("JAVA_Spark18_Mysql2").setMaster("local[*]");
         JavaSparkContext jsc = new JavaSparkContext(conf);
 
-        class MyConnectionFactory implements JdbcRDD.ConnectionFactory {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public Connection getConnection() {
-                Connection conn = null;
-                try {
-                    Class.forName("com.mysql.jdbc.Driver"); //("oracle.jdbc.driver.OracleDriver");
-                    String url = "jdbc:mysql://localhost:3306/spark_learn_rdd"; //"jdbc:oracle:thin:@172.168.27.6:1521:orclnew";
-                    conn = DriverManager.getConnection(url, "root", "1234");
-                } catch (Exception e){
-                    e.printStackTrace();
-                }
-                return conn;
-            }
-
-        }
-
         String sql = "select id, name, age from user where id >= ? and id <= ?";
+        /*
         JavaRDD<UserBean> portRdd = JdbcRDD.create(jsc,
                 new MyConnectionFactory(),
                 sql,
@@ -76,6 +54,23 @@ public class JAVA_Spark18_Mysql2 {
                         }
                         return user;
                     }
+                }).persist(StorageLevel.MEMORY_ONLY());  */
+        JavaRDD<UserBean> portRdd = JdbcRDD.create(jsc,
+                new MyConnectionFactory(),
+                sql,
+                1,
+                10,
+                2,
+                rs -> {
+                    ResultSetMetaData meta = rs.getMetaData();
+                    UserBean user = new UserBean();
+                    int columns = meta.getColumnCount();
+                    for (int i = 1; i <= columns; i++) {
+                        PropertyUtils.setProperty(user,
+                                meta.getColumnLabel(i).toLowerCase(),
+                                rs.getObject(i));
+                    }
+                    return user;
                 }).persist(StorageLevel.MEMORY_ONLY());
 
         System.out.println("number is:" + portRdd.count());
