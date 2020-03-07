@@ -8,6 +8,13 @@
     <artifactId>spark_learn</artifactId>
     <version>1.0</version>
 
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.apache.spark</groupId>
@@ -16,8 +23,10 @@
         </dependency>
     </dependencies>
     <build>
-        <finalName>WordCount</finalName>
+        <!--
+        <finalName>WordCount</finalName> -->
         <plugins>
+            <!--
             <plugin>
                 <groupId>net.alchim31.maven</groupId>
                 <artifactId>scala-maven-plugin</artifactId>
@@ -30,12 +39,21 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>  -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
             </plugin>
 
+            <!--
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
-                <version>3.0.0</version>
+                <version>3.6.3</version>
                 <configuration>
                     <archive>
                         <manifest>
@@ -55,7 +73,7 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin> -->
         </plugins>
     </build>
 
