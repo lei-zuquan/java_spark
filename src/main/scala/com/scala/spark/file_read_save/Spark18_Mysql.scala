@@ -15,6 +15,9 @@ import org.apache.spark.{SparkConf, SparkContext}
  */
 
 /*
+
+pom.xml添加mysql的jdbc连接驱动
+
 <dependency>
     <groupId>mysql</groupId>
     <artifactId>mysql-connector-java</artifactId>
@@ -83,7 +86,10 @@ object Spark18_Mysql {
       3,
       2,
       (rs) => {
-        println(rs.getString(1) + "  ,  " + rs.getInt(2))
+        val name = rs.getString(1);
+        val age = rs.getInt(2);
+        println(name + "  ,  " + age)
+        (name, age)
       }
     )
     jdbcRDD.collect()
@@ -118,20 +124,18 @@ object Spark18_Mysql {
 
     dataRDD.foreachPartition(datas => { //以分区作为循环，发送到 excutor上，如果有两个分区，则直接发送到excuator上
       Class.forName(driver)
-      val conection = java.sql.DriverManager.getConnection(url, userName, passMd)
+      val conn = java.sql.DriverManager.getConnection(url, userName, passMd)
+      val sql = "insert into  user (name, age) values (?,?)"
+      var statement: PreparedStatement = conn.prepareStatement(sql)
       datas.foreach {
         case (name, age) => {
-          // Class.forName(driver)
-          // val conection = java.sql.DriverManager.getConnection(url, userName, passMd)
-          val sql = "insert into  user (name, age) values (?,?)"
-          var statement: PreparedStatement = conection.prepareStatement(sql)
-          var usern: Unit = statement.setString(1, name)
-          val pasword = statement.setInt(2, age)
+          statement.setString(1, name)
+          statement.setInt(2, age)
           statement.executeUpdate()
-          statement.close()
-          conection.close()
         }
       }
+      statement.close()
+      conn.close()
     })
   }
 }
