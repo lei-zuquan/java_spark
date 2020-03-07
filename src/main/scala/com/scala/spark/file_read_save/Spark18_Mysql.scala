@@ -29,7 +29,7 @@ object Spark18_Mysql {
     var sc: SparkContext = new SparkContext(config)
 
     val driver = "com.mysql.jdbc.Driver"
-    val url = "jdbc:mysql://localhost:3306/test"
+    val url = "jdbc:mysql://localhost:3306/spark_learn_rdd"
     val userName = "root"
     val passMd = "1234"
 
@@ -70,7 +70,7 @@ object Spark18_Mysql {
 
   def selectFromMySQL(sc: SparkContext, driver: String, url: String, userName: String, passMd: String): Unit = {
     //创建jdbcRDD，方法数据库,查询数据
-    val sql = "select name, age from user  where id >1 and id <1000"
+    val sql = "select name, age from user where id >= ? and id <= ?"
     var jdbcRDD = new JdbcRDD(
       sc,
       () => {
@@ -97,13 +97,13 @@ object Spark18_Mysql {
     //Class.forName(driver)
     //val conection = java.sql.DriverManager.getConnection(url, userName, passMd)
     dataRDD.foreach {
-      case (userName, age) => {
+      case (name, age) => {
         Class.forName(driver)
         val conection = java.sql.DriverManager.getConnection(url, userName, passMd)
-        val sql = "insert into  user (name, age) values ?,?"
+        val sql = "insert into  user (name, age) values (?,?)"
         var statement: PreparedStatement = conection.prepareStatement(sql)
-        var usern: Unit = statement.setString(1, userName)
-        val pasword = statement.setString(2, passMd)
+        var usern: Unit = statement.setString(1, name)
+        val pasword = statement.setInt(2, age)
         statement.executeUpdate()
         statement.close()
         conection.close()
@@ -120,13 +120,13 @@ object Spark18_Mysql {
       Class.forName(driver)
       val conection = java.sql.DriverManager.getConnection(url, userName, passMd)
       datas.foreach {
-        case (userName, age) => {
+        case (name, age) => {
           // Class.forName(driver)
           // val conection = java.sql.DriverManager.getConnection(url, userName, passMd)
-          val sql = "insert into  user (name, age) values ?,?"
+          val sql = "insert into  user (name, age) values (?,?)"
           var statement: PreparedStatement = conection.prepareStatement(sql)
-          var usern: Unit = statement.setString(1, userName)
-          val pasword = statement.setString(2, passMd)
+          var usern: Unit = statement.setString(1, name)
+          val pasword = statement.setInt(2, age)
           statement.executeUpdate()
           statement.close()
           conection.close()
