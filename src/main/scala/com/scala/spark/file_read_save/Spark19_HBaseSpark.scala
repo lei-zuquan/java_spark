@@ -67,8 +67,8 @@ object Spark19_HBaseSpark {
         println("RowKey:" + key + ",Name:" + name + ",Color:" + color)
     }
 
-    val dataRDD: RDD[(String, String)] = sc.makeRDD(List(("1001", "zhangsan"), ("1002", "lisi"), ("1003", "wangwu")))
-    val putRDD = dataRDD.map {
+    val dataRDD: RDD[(String, String)] = sc.makeRDD(List(("1004", "zhangsan"), ("1002", "lisi"), ("1003", "wangwu")))
+    val putRDD: RDD[(ImmutableBytesWritable, Put)] = dataRDD.map {
       case (rowkey, name) => {
         val put = new Put(Bytes.toBytes(rowkey));
         put.addColumn(Bytes.toBytes("info"), Bytes.toBytes("name"), Bytes.toBytes(name))
