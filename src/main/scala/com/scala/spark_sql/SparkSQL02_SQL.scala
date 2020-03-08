@@ -1,38 +1,32 @@
 package com.scala.spark_sql
 
-import org.apache.spark.SparkConf
 import org.apache.spark.sql.{DataFrame, SparkSession}
+import org.apache.spark.{SparkConf, SparkContext}
 
 /**
  * @Author: Lei
  * @E-mail: 843291011@qq.com
- * @Date: Created in 3:29 下午 2020/3/8
+ * @Date: Created in 4:47 下午 2020/3/8
  * @Version: 1.0
  * @Modified By:
- * @Description: sparkSQL获取json文件示例
+ * @Description: sparkSQL操作dataFrame示例
  */
-
-/**
- * pom.xml文件添加依赖
- *
- * <dependency>
- * <groupId>org.apache.spark</groupId>
- * <artifactId>spark-sql_2.11</artifactId>
- * <version>2.1.1</version>
- * </dependency>
- *
- */
-object SparkSQL01_Demo {
+object SparkSQL02_SQL {
   def main(args: Array[String]): Unit = {
     // 创建配置对象
-    var config: SparkConf = new SparkConf().setMaster("local[*]").setAppName("SparkSQL01_Demo")
+    var config: SparkConf = new SparkConf().setMaster("local[*]").setAppName("SparkSQL02_SQL")
 
     // 创建spark上下文对象
+    var sc: SparkContext = new SparkContext(config)
     // var session: SparkSession = new SparkSession(config) // 方法私有，不能正常创建
     val session: SparkSession = SparkSession.builder().config(config).getOrCreate()
 
     //读取数据，构建DataFrame
     var frame: DataFrame = session.read.json("in/user.json")
+
+    //将DataFrame转成一张表
+    frame.createOrReplaceTempView("user")
+    session.sql("select * from user").show
 
     //展示数据
     frame.show()
