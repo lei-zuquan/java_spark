@@ -15,6 +15,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 
+    <!--
     <repositories>
         <repository>
             <id>cloudera</id>
@@ -26,7 +27,7 @@
                 <enabled>true</enabled>
             </snapshots>
         </repository>
-    </repositories>
+    </repositories> -->
 
     <dependencies>
 
@@ -50,6 +51,12 @@
         <dependency>
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-core_2.11</artifactId>
+            <version>2.1.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-sql_2.11</artifactId>
             <version>2.1.1</version>
         </dependency>
 
