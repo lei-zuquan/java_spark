@@ -3,7 +3,7 @@ package com.java.spark_sql;
 import java.io.Serializable;
 
 //创建样例类，DataSet需要类型
-public class User implements Serializable {
+class User implements Serializable {
 
     private Integer id;
     private String name;
