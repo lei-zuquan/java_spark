@@ -27,7 +27,6 @@ public class Java_SparkSQL03_transform {
         SparkConf config = new SparkConf().setMaster("local[*]").setAppName("SparkSQL03_transform");
         JavaSparkContext sc = new JavaSparkContext(config);
 
-
         //SparkSession session = new SparkSession(sc.sc()); // 方法私有，不能正常创建
         SparkSession session = SparkSession.builder().config(config).getOrCreate();
 

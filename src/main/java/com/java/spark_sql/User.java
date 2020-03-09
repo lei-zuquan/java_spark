@@ -15,7 +15,12 @@ public class User implements Serializable {
         this.age = age;
     }
 
-
+    /**
+     * 在spark中遍历User实例时，无参构造方法必须得有
+     */
+    public User() {
+        //super();
+    }
 
     public Integer getId() {
         return id;
@@ -39,5 +44,14 @@ public class User implements Serializable {
 
     public void setAge(Integer age) {
         this.age = age;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", age=" + age +
+                '}';
     }
 }
