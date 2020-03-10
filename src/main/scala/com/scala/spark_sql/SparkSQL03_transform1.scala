@@ -35,8 +35,8 @@ object SparkSQL03_transform1 {
       case (id, name) => {
         User2(id, name)
       }
-
     }
+
     var userDS: Dataset[User2] = userRDD.toDS()
     val rdd1:RDD[User2] = userDS.rdd
 
