@@ -12,12 +12,71 @@ import com.typesafe.config.ConfigFactory;
  */
 
 /*
+ *   1.加入pom.xml文件依赖
  *         <!-- 导入加载配置文件的依赖-->
  *         <dependency>
  *             <groupId>com.typesafe</groupId>
  *             <artifactId>config</artifactId>
  *             <version>1.2.1</version>
  *         </dependency>
+ *
+ *   2.添加profiles选项
+      <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <!--默认生效的配置组-->
+                <activeByDefault>true</activeByDefault>
+                <property>
+                    <name>env</name>
+                    <value>Dev</value>
+                </property>
+            </activation>
+            <build>
+                <!--配置文件路径-->
+                <resources>
+                    <resource>
+                        <directory>src/main/resources/dev</directory>
+                    </resource>
+                </resources>
+            </build>
+        </profile>
+        <profile>
+            <id>test</id>
+            <activation>
+
+                <property>
+                    <name>env</name>
+                    <value>Test</value>
+                </property>
+            </activation>
+            <build>
+                <!--配置文件路径-->
+                <resources>
+                    <resource>
+                        <directory>src/main/resources/test</directory>
+                    </resource>
+                </resources>
+            </build>
+        </profile>
+        <profile>
+            <id>prod</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>Prod</value>
+                </property>
+            </activation>
+            <build>
+                <!--配置文件路径-->
+                <resources>
+                    <resource>
+                        <directory>src/main/resources/prod</directory>
+                    </resource>
+                </resources>
+            </build>
+        </profile>
+    </profiles>
  *
  */
 public class ProfilesReadTest {
@@ -31,3 +90,5 @@ public class ProfilesReadTest {
         System.out.println(value);
     }
 }
+
+

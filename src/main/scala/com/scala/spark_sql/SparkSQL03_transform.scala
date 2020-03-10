@@ -31,9 +31,9 @@ object SparkSQL03_transform {
     // 转换为DF
     var df: DataFrame = rdd.toDF("id", "name", "age")
 
+
     // 转换为DS
     var ds: Dataset[User] = df.as[User] //这里需要创建样例类
-
 
     // 转换为DF
     var df1: DataFrame = ds.toDF()
