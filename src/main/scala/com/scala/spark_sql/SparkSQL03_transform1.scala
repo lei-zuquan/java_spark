@@ -24,7 +24,7 @@ object SparkSQL03_transform1 {
     val spark_session: SparkSession = SparkSession.builder().config(config).getOrCreate()
 
     //创建RDD
-    var rdd: RDD[(Int, String)] = spark_session.sparkContext.makeRDD(List((1, "zhagnshan"), (2, "宋冬冬")))
+    var rdd: RDD[(Int, String)] = spark_session.sparkContext.makeRDD(List((1, "zhagnshan"), (2, "lisi")))
     //进行转换前，需要引入隐式转换规则。
     //这里spark_session不是包的名字，是SparkSession的对象
     import spark_session.implicits._   //无论自己是否需要隐式转换，最好还是加上
