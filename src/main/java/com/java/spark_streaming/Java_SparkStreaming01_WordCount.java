@@ -17,6 +17,16 @@ import java.util.Arrays;
  * @Modified By:
  * @Description:
  */
+
+/*
+  添加pom.xml文件依赖
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-streaming_2.11</artifactId>
+            <version>2.1.1</version>
+        </dependency>
+ */
+
 public class Java_SparkStreaming01_WordCount {
     public static void main(String[] args){
         //使用SparkStreaming 完成WordCount

@@ -13,6 +13,15 @@ import org.apache.spark.streaming.{Seconds, StreamingContext}
  * @Modified By:
  * @Description: sparkStreaming版的wordCount
  */
+
+/*
+  添加pom.xml文件依赖
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-streaming_2.11</artifactId>
+            <version>2.1.1</version>
+        </dependency>
+ */
 object SparkStreaming01_WordCount {
   def main(args: Array[String]): Unit = {
 
