@@ -37,11 +37,11 @@ public class Java_SparkSQL06_DataSet {
         Encoder<ColTest> colTestEncoder = Encoders.bean(ColTest.class);
         Dataset<ColTest> ds = df.as(colTestEncoder);
 
-//        ds.map( colTest -> {
-//            return colTest;
-//        });
+        Dataset<ColTest> filterDstream = ds.filter((ColTest colTest) -> {
+            return colTest.getId() > 1;
+        });
 
-        ds.foreach( colTest -> {
+        filterDstream.foreach( colTest -> {
             System.out.println("Id:" + colTest.getId() + "\tName:" + colTest.getName());
         });
 

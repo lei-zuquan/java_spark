@@ -36,18 +36,22 @@ object SparkSQL06_DataSet {
     var rdd: RDD[(String, Int)]  = session.sparkContext.makeRDD(List(("zhangsan", 1), ("lisi", 2), ("wangwu", 3)))
 
 
-    val test: Dataset[Coltest] = rdd.map{
+    val ds: Dataset[Coltest] = rdd.map{
           case(col1, col2) =>
             Coltest(col1, col2)
     }.toDS()
 
-    test.map( colTest => {
+    ds.map( colTest => {
       println(colTest.name)
       println(colTest.id)
       colTest
     })
 
-    test.foreach( colTest => {
+    val filterDataSet: Dataset[Coltest] = ds.filter(colTest => {
+      colTest.id > 1
+    })
+
+    filterDataSet.foreach( colTest => {
       print(colTest.name)
       println("colTest.name:" + colTest.name + "\tcolTest.id:" + colTest.id)
     })
