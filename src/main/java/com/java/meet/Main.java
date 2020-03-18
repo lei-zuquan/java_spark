@@ -1,4 +1,4 @@
-package com.java;
+package com.java.meet;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -21,7 +21,7 @@ public class Main {
      */
     public static void main(String[] args) {
         Date startTime = new Date();
-        int totalCount = 6;
+        int totalCount = 4;
         int getIndex = 2;
         String result = getNumListByIndex(totalCount, getIndex);
         System.out.println(result);
