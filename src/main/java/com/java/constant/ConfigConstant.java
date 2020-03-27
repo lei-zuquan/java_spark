@@ -1,4 +1,4 @@
-package com.java.test;
+package com.java.constant;
 
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
@@ -79,7 +79,7 @@ import com.typesafe.config.ConfigFactory;
     </profiles>
  *
  */
-public class ProfilesReadTest {
+public class ConfigConstant {
     public static void main(String[] args) {
         // 1.需要在pom.xml添加maven依赖
 
