@@ -22,7 +22,7 @@ SparkSubmit.scala文件
 
         // 封装参数
         -- new SparkSubmitArguments --> handle()
-            // Cluster
+            // isYarnCluster
             -- childMainClass = "org.apache.spark.deploy.yarn.Client" // 需要导入spark-yarn pom依赖
             // Client
             -- childMainClass = args.mainClass (SparkPi)
