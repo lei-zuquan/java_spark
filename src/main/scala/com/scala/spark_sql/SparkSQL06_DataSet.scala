@@ -2,7 +2,7 @@ package com.scala.spark_sql
 
 import org.apache.spark.SparkConf
 import org.apache.spark.rdd.RDD
-import org.apache.spark.sql.{Dataset, Encoders, SparkSession}
+import org.apache.spark.sql.{DataFrame, Dataset, SparkSession}
 
 /**
   * @Author: Lei
@@ -14,6 +14,15 @@ import org.apache.spark.sql.{Dataset, Encoders, SparkSession}
   */
 object SparkSQL06_DataSet {
   def main(args: Array[String]): Unit = {
+    //    val startTime = LocalDateTime.now()
+    //
+    //    TimeUnit.SECONDS.sleep(80)
+    //    val endTime = LocalDateTime.now;
+    //    // 此日期时间与结束日期时间之间的时间量
+    //    val i = startTime.until(endTime, ChronoUnit.SECONDS)
+    //
+    //    println(i)
+
     // 创建配置对象
     var config: SparkConf = new SparkConf().setMaster("local[*]").setAppName("SparkSQL06_DataSet")
 
@@ -33,21 +42,21 @@ object SparkSQL06_DataSet {
      ("b", 1)
      ("a", 1)
       **/
-    var rdd: RDD[(String, Int)]  = session.sparkContext.makeRDD(List(("zhangsan", 1), ("lisi", 2), ("wangwu", 3)))
+    var rdd: RDD[(Int, String, Int)] = session.sparkContext.makeRDD(List((1, "zhangsan", 10), (2, "lisi", 20), (3, "wangwu", 30)))
 
 
-    val ds: Dataset[Coltest] = rdd.map{
-          case(col1, col2) =>
-            Coltest(col1, col2)
+    val studentDs: Dataset[Coltest] = rdd.map {
+      case (id, name, age) =>
+        Coltest(id, name, age)
     }.toDS()
 
-    ds.map( colTest => {
+    studentDs.map(colTest => {
       println(colTest.name)
       println(colTest.id)
       colTest
     })
 
-    val filterDataSet: Dataset[Coltest] = ds.filter(colTest => {
+    val filterDataSet: Dataset[Coltest] = studentDs.filter(colTest => {
       colTest.id > 1
     })
 
@@ -56,10 +65,20 @@ object SparkSQL06_DataSet {
       println("colTest.name:" + colTest.name + "\tcolTest.id:" + colTest.id)
     })
 
+    // 注册成临时表进行查询
+    studentDs.createOrReplaceTempView("ods_student")
+    val frame1: DataFrame = studentDs.sqlContext.sql("select * from ods_student where id < 3")
+    println("=====================================")
+    frame1.show()
+
+    val frame2: DataFrame = session.sql("select * from ods_student where id < 3")
+    println("=====================================")
+    frame2.show()
+
     // 关闭资源
     session.stop()
   }
 }
 
 
-case class Coltest(name:String, id:Int) extends Serializable
+case class Coltest(id: Int, name: String, age: Int) extends Serializable
