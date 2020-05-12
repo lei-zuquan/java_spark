@@ -71,7 +71,7 @@ object SparkStreaming04_DirectKafkaWordCount {
 
     var conf = new SparkConf()
       .setAppName("DirectKafka")
-      .setMaster("local[2]")
+      //.setMaster("local[2]")
       // .set("spark.streaming.receiver.maxRate", "1") // receiver方式接收; 限制每个 receiver 每秒最大可以接收的记录的数据
       .set("spark.streaming.kafka.maxRatePerPartition", "2000") // 限流，对目标topic每个partition每秒钟拉取的数据条数 条数/（每个partition）
       .set("spark.streaming.backpressure.enabled", "true") // 启用backpressure机制，默认值false

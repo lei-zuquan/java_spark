@@ -5,7 +5,6 @@ import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 
 import java.util.Properties;
-import java.util.concurrent.TimeUnit;
 
 public class KafkaProducerTest {
 
@@ -42,15 +41,15 @@ public class KafkaProducerTest {
 		Producer<String, String> producer = new KafkaProducer<>(props);
 		String topic = "directKafka_test";
 
-		for (int i = 0; i < 600000; i++) {
+		for (int i = 0; i < 600000000; i++) {
 			//producer.send(new ProducerRecord<String, String>(
 			//		topic, 
 			//i, // 如果key没有填写的话，默认是null；按照key进行哈希，相同key去一个partition。（如果扩展了partition的数量那么就不能保证了）
 			//		"hello world"));
 			//for (int j = 0; j < 10; j++) {
 			String key = i + "";
-			producer.send(new ProducerRecord<>(topic, key, "helloworld"));
-			TimeUnit.MILLISECONDS.sleep(1);
+			producer.send(new ProducerRecord<>(topic, key, "helloworld" + i));
+			//TimeUnit.MILLISECONDS.sleep(0);
 			//}
 		}
 
