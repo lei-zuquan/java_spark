@@ -20,12 +20,12 @@ import org.apache.spark.{SparkConf, SparkContext}
   代码看着简单易懂也和我们的业务有关系。
  */
 
-case class Record(
-                   id: String,
-                   companyName: String,
-                   direction: String,
-                   productInfo: String
-                 )
+//case class Record(
+//                   id: String,
+//                   companyName: String,
+//                   direction: String,
+//                   productInfo: String
+//                 )
 
 object KmeansTest1 {
   def main(args: Array[String]): Unit = {
@@ -37,6 +37,7 @@ object KmeansTest1 {
 
     val sqlContext = new SQLContext(sc)
     import sqlContext.implicits._
+    //import sqlContext.implicits._
 
     val records: DataFrame = sc.textFile("in/spark_ml_file")
       .map { x =>

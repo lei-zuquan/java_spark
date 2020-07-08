@@ -31,6 +31,7 @@ object T01_TFIDFTest2 {
 
     val sc = new SparkContext(conf)
     val sqlContext = new SQLContext(sc)
+    //import sqlContext.implicits._
     import sqlContext.implicits._
 
     val records: DataFrame = sc.textFile("in/spark_ml_file")
